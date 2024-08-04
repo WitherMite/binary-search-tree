@@ -14,6 +14,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const sortedArr = [1, 3, 5, 12, 15, 17, 19, 20, 21, 25];
-const tree = new BinarySearchTree(sortedArr);
+const randomArr = Array.from({ length: 31 }, () =>
+  Math.floor(Math.random() * 25)
+);
+const tree = new BinarySearchTree(randomArr);
 prettyPrint(tree.root);

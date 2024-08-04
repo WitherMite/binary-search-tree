@@ -1,3 +1,5 @@
+import mergeSort from "./merge-sort.mjs";
+
 class Node {
   constructor(value) {
     this.value = value;
@@ -19,12 +21,20 @@ export default class BinarySearchTree {
     return root;
   }
   static #sanitizeArr(arr) {
-    // sort array
+    const sortedArr = mergeSort(arr);
+
     // remove duplicate values
+    for (let i = 1; i < sortedArr.length; i++) {
+      if (sortedArr[i] !== sortedArr[i - 1]) continue;
+
+      // decrement i to account for shifting indexes
+      sortedArr.splice(i--, 1);
+    }
+    return sortedArr;
   }
 
   constructor(arr) {
-    // const sortedArr = BinarySearchTree.#sanitizeArr(arr);
-    this.root = BinarySearchTree.#build(arr);
+    const sortedArr = BinarySearchTree.#sanitizeArr(arr);
+    this.root = BinarySearchTree.#build(sortedArr);
   }
 }
