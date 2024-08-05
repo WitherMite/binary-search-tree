@@ -99,4 +99,28 @@ export default class BinarySearchTree {
       }
     }
   }
+  inOrder(callback, node = this.root) {
+    if (!node) return;
+    if (typeof callback !== "function")
+      throw new Error("Invalid callback provided", { cause: callback });
+    this.inOrder(callback, node.leftTree);
+    callback(node);
+    this.inOrder(callback, node.rightTree);
+  }
+  preOrder(callback, node = this.root) {
+    if (!node) return;
+    if (typeof callback !== "function")
+      throw new Error("Invalid callback provided", { cause: callback });
+    callback(node);
+    this.preOrder(callback, node.leftTree);
+    this.preOrder(callback, node.rightTree);
+  }
+  postOrder(callback, node = this.root) {
+    if (!node) return;
+    if (typeof callback !== "function")
+      throw new Error("Invalid callback provided", { cause: callback });
+    this.postOrder(callback, node.leftTree);
+    this.postOrder(callback, node.rightTree);
+    callback(node);
+  }
 }

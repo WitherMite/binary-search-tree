@@ -14,7 +14,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const randomArr = Array.from({ length: 127 }, () =>
+const randomArr = Array.from({ length: 16 }, () =>
   Math.floor(Math.random() * 101)
 );
 const tree = new BinarySearchTree(randomArr);
@@ -29,4 +29,9 @@ prettyPrint(tree.root);
 // tree.remove(25);
 // tree.remove(-1);
 // prettyPrint(tree.root);
-tree.levelOrder((node) => console.log(node.value));
+console.log("preorder:");
+tree.preOrder((node) => console.log(node.value));
+console.log("inorder:");
+tree.inOrder((node) => console.log(node.value));
+console.log("postorder:");
+tree.postOrder((node) => console.log(node.value));
