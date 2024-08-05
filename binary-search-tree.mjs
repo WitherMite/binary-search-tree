@@ -7,6 +7,11 @@ class Node {
     this.leftTree = null;
     this.rightTree = null;
   }
+  height() {
+    const leftHeight = this.leftTree ? 1 + this.leftTree.height() : 0;
+    const rightHeight = this.rightTree ? 1 + this.rightTree.height() : 0;
+    return leftHeight > rightHeight ? leftHeight : rightHeight;
+  }
 }
 
 export default class BinarySearchTree {
@@ -83,6 +88,21 @@ export default class BinarySearchTree {
       if (node?.value > value) node = node.leftTree;
     }
     return node;
+  }
+  depth(node) {
+    if (!(node instanceof Node)) return;
+    let parent = this.root;
+    let count = 0;
+    while (parent !== null) {
+      if (node.value === parent.value) return count;
+      if (node.value < parent.value) {
+        parent = parent.leftTree;
+      } else {
+        parent = parent.rightTree;
+      }
+      count++;
+    }
+    return null;
   }
 
   levelOrder(callback) {
