@@ -56,7 +56,25 @@ export default class BinarySearchTree {
       this.insert(value, node.rightTree);
     }
   }
-  remove(value) {}
+  remove(value) {
+    const delNode = (val, node = this.root) => {
+      if (node === null) return node; // val is not in tree
+      // recursively change the tree's edges in search for val
+      if (val < node.value) node.leftTree = delNode(val, node.leftTree);
+      if (val > node.value) node.rightTree = delNode(val, node.rightTree);
+      // send up the new node for each level of tree
+      if (val !== node.value) return node;
+      if (node.leftTree && node.rightTree) {
+        let successor = BinarySearchTree.#getSuccessor(node);
+        node.value = successor.value;
+        node.rightTree = delNode(successor.value, node.rightTree);
+        return node;
+      } else {
+        return node.rightTree ? node.rightTree : node.leftTree;
+      }
+    };
+    this.root = delNode(value);
+  }
   find(value) {
     let node = this.root;
     while (node?.value !== value && node !== null) {
