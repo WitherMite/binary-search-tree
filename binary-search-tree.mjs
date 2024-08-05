@@ -1,4 +1,5 @@
 import mergeSort from "./merge-sort.mjs";
+import Queue from "./queue.mjs";
 
 class Node {
   constructor(value) {
@@ -82,5 +83,20 @@ export default class BinarySearchTree {
       if (node?.value > value) node = node.leftTree;
     }
     return node;
+  }
+  levelOrder(callback) {
+    if (typeof callback !== "function")
+      throw new Error("Invalid callback provided", { cause: callback });
+
+    const queue = new Queue();
+    queue.enqueue(this.root);
+    while (queue.tail) {
+      const node = queue.dequeue();
+      if (node) {
+        callback(node);
+        queue.enqueue(node.leftTree);
+        queue.enqueue(node.rightTree);
+      }
+    }
   }
 }
