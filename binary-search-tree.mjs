@@ -101,7 +101,7 @@ export default class BinarySearchTree {
     }
   }
   inOrder(callback, node = this.root) {
-    if (!node instanceof Node) return;
+    if (!(node instanceof Node)) return;
     if (typeof callback !== "function")
       throw new Error("Invalid callback provided", { cause: callback });
     this.inOrder(callback, node.leftTree);
@@ -109,7 +109,7 @@ export default class BinarySearchTree {
     this.inOrder(callback, node.rightTree);
   }
   preOrder(callback, node = this.root) {
-    if (!node instanceof Node) return;
+    if (!(node instanceof Node)) return;
     if (typeof callback !== "function")
       throw new Error("Invalid callback provided", { cause: callback });
     callback(node);
@@ -117,7 +117,7 @@ export default class BinarySearchTree {
     this.preOrder(callback, node.rightTree);
   }
   postOrder(callback, node = this.root) {
-    if (!node instanceof Node) return;
+    if (!(node instanceof Node)) return;
     if (typeof callback !== "function")
       throw new Error("Invalid callback provided", { cause: callback });
     this.postOrder(callback, node.leftTree);
