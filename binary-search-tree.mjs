@@ -32,6 +32,13 @@ export default class BinarySearchTree {
     }
     return sortedArr;
   }
+  static #getSuccessor(node) {
+    let nextNode = node.rightTree;
+    while (nextNode.leftTree !== null) {
+      nextNode = nextNode.leftTree;
+    }
+    return nextNode;
+  }
 
   constructor(arr, isSorted = false) {
     const sortedArr = isSorted ? arr : BinarySearchTree.#sanitizeArr(arr);
@@ -48,5 +55,14 @@ export default class BinarySearchTree {
       if (node.rightTree === null) return (node.rightTree = new Node(value));
       this.insert(value, node.rightTree);
     }
+  }
+  remove(value) {}
+  find(value) {
+    let node = this.root;
+    while (node?.value !== value && node !== null) {
+      if (node?.value < value) node = node.rightTree;
+      if (node?.value > value) node = node.leftTree;
+    }
+    return node;
   }
 }
