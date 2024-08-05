@@ -59,14 +59,14 @@ export default class BinarySearchTree {
   }
   remove(value) {
     const delNode = (val, node = this.root) => {
-      if (node === null) return node; // val is not in tree
+      if (node === null) return node;
       // recursively change the tree's edges in search for val
       if (val < node.value) node.leftTree = delNode(val, node.leftTree);
       if (val > node.value) node.rightTree = delNode(val, node.rightTree);
       // send up the new node for each level of tree
       if (val !== node.value) return node;
       if (node.leftTree && node.rightTree) {
-        let successor = BinarySearchTree.#getSuccessor(node);
+        const successor = BinarySearchTree.#getSuccessor(node);
         node.value = successor.value;
         node.rightTree = delNode(successor.value, node.rightTree);
         return node;
@@ -84,6 +84,7 @@ export default class BinarySearchTree {
     }
     return node;
   }
+
   levelOrder(callback) {
     if (typeof callback !== "function")
       throw new Error("Invalid callback provided", { cause: callback });
@@ -100,7 +101,7 @@ export default class BinarySearchTree {
     }
   }
   inOrder(callback, node = this.root) {
-    if (!node) return;
+    if (!node instanceof Node) return;
     if (typeof callback !== "function")
       throw new Error("Invalid callback provided", { cause: callback });
     this.inOrder(callback, node.leftTree);
@@ -108,7 +109,7 @@ export default class BinarySearchTree {
     this.inOrder(callback, node.rightTree);
   }
   preOrder(callback, node = this.root) {
-    if (!node) return;
+    if (!node instanceof Node) return;
     if (typeof callback !== "function")
       throw new Error("Invalid callback provided", { cause: callback });
     callback(node);
@@ -116,7 +117,7 @@ export default class BinarySearchTree {
     this.preOrder(callback, node.rightTree);
   }
   postOrder(callback, node = this.root) {
-    if (!node) return;
+    if (!node instanceof Node) return;
     if (typeof callback !== "function")
       throw new Error("Invalid callback provided", { cause: callback });
     this.postOrder(callback, node.leftTree);
