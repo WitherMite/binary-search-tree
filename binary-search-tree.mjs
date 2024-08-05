@@ -33,8 +33,20 @@ export default class BinarySearchTree {
     return sortedArr;
   }
 
-  constructor(arr) {
-    const sortedArr = BinarySearchTree.#sanitizeArr(arr);
+  constructor(arr, isSorted = false) {
+    const sortedArr = isSorted ? arr : BinarySearchTree.#sanitizeArr(arr);
     this.root = BinarySearchTree.#build(sortedArr);
+  }
+
+  insert(value, node = this.root) {
+    if (value === node.value) return;
+    if (value < node.value) {
+      if (node.leftTree === null) return (node.leftTree = new Node(value));
+      this.insert(value, node.leftTree);
+    }
+    if (value > node.value) {
+      if (node.rightTree === null) return (node.rightTree = new Node(value));
+      this.insert(value, node.rightTree);
+    }
   }
 }
