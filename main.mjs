@@ -14,26 +14,47 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const randomArr = Array.from({ length: 127 }, () =>
-  Math.floor(Math.random() * 101)
+const logInEveryOrder = (tree) => {
+  const arr = [];
+  tree.levelOrder((node) => arr.push(node.value));
+  console.log("Level order:");
+  console.log(arr);
+
+  arr.splice(0, arr.length);
+  tree.preOrder((node) => arr.push(node.value));
+  console.log("Pre order:");
+  console.log(arr);
+
+  arr.splice(0, arr.length);
+  tree.inOrder((node) => arr.push(node.value));
+  console.log("In order:");
+  console.log(arr);
+
+  arr.splice(0, arr.length);
+  tree.postOrder((node) => arr.push(node.value));
+  console.log("Post order:");
+  console.log(arr);
+};
+
+const randomArr = Array.from({ length: 63 }, () =>
+  Math.floor(Math.random() * 100)
 );
 const tree = new BinarySearchTree(randomArr);
-tree.insert(101);
-tree.insert(50);
+
 prettyPrint(tree.root);
-// tree.insert(-1);
-// prettyPrint(tree.root);
-// tree.remove(101);
-// tree.remove(50);
-// tree.remove(75);
-// tree.remove(25);
-// tree.remove(-1);
-// prettyPrint(tree.root);
-// console.log("preorder:");
-// tree.preOrder((node) => console.log(node.value));
-// console.log("inorder:");
-// tree.inOrder((node) => console.log(node.value));
-// console.log("postorder:");
-// tree.postOrder((node) => console.log(node.value));
-console.log(tree.height(tree.find(50)));
-console.log(tree.depth(tree.find(101)));
+console.log(`Balanced: ${BinarySearchTree.isBalanced(tree)}`);
+logInEveryOrder(tree);
+
+console.log("Unbalancing tree...");
+[101, 104, 120, 500, 260].forEach((val) => {
+  console.log(`Adding ${val}`);
+  tree.insert(val);
+});
+prettyPrint(tree.root);
+console.log(`Balanced: ${BinarySearchTree.isBalanced(tree)}`);
+
+console.log("Rebalancing tree...");
+BinarySearchTree.rebalance(tree);
+console.log(`Balanced: ${BinarySearchTree.isBalanced(tree)}`);
+logInEveryOrder(tree);
+prettyPrint(tree.root);

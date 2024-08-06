@@ -41,6 +41,31 @@ export default class BinarySearchTree {
     return nextNode;
   }
 
+  static isBalanced(tree) {
+    // I believe using level order will find some unbalanced branch the fastest, as it wont explore an entire balanced subtree
+    const queue = new Queue();
+    queue.enqueue(tree.root);
+    while (queue.tail) {
+      const node = queue.dequeue();
+      if (node) {
+        const leftHeight = tree.height(node.leftTree);
+        const rightHeight = tree.height(node.rightTree);
+        if (Math.abs(leftHeight - rightHeight) > 1) return false;
+        queue.enqueue(node.leftTree);
+        queue.enqueue(node.rightTree);
+      }
+    }
+    // would've reused levelOrder method, but would need to rewrite it to be able to stop early from inside the callback fn
+    return true;
+  }
+  static rebalance(tree) {
+    if (BinarySearchTree.isBalanced(tree)) return tree;
+    const arr = [];
+    tree.inOrder((node) => arr.push(node.value));
+    tree.root = BinarySearchTree.#build(arr);
+    return tree;
+  }
+
   constructor(arr, isSorted = false) {
     const sortedArr = isSorted ? arr : BinarySearchTree.#sanitizeArr(arr);
     this.root = BinarySearchTree.#build(sortedArr);
