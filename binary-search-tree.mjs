@@ -7,11 +7,6 @@ class Node {
     this.leftTree = null;
     this.rightTree = null;
   }
-  height() {
-    const leftHeight = this.leftTree ? 1 + this.leftTree.height() : 0;
-    const rightHeight = this.rightTree ? 1 + this.rightTree.height() : 0;
-    return leftHeight > rightHeight ? leftHeight : rightHeight;
-  }
 }
 
 export default class BinarySearchTree {
@@ -103,6 +98,12 @@ export default class BinarySearchTree {
       count++;
     }
     return null;
+  }
+  height(node) {
+    if (!(node instanceof Node)) return;
+    const leftHeight = node.leftTree ? 1 + this.height(node.leftTree) : 0;
+    const rightHeight = node.rightTree ? 1 + this.height(node.rightTree) : 0;
+    return leftHeight > rightHeight ? leftHeight : rightHeight;
   }
 
   levelOrder(callback) {
